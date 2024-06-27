@@ -1,6 +1,6 @@
 # Python NPM-like Package Manager
 
-A lightweight, NPM-inspired package manager implemented in Python. This project aims to provide a simple yet effective way to manage dependencies in Python projects, mimicking some of the core functionalities of Node.js's NPM.
+A lightweight, NPM-inspired package manager implemented in Python. This project aims to provide a simple yet effective way to manage dependencies in NodeJS projects, mimicking some of the core functionalities of Node.js's NPM.
 
 ## Features
 

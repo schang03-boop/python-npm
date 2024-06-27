@@ -14,27 +14,31 @@ def add_package(package_string, package_json_path, dev=False):
     dev (bool): If True, add to devDependencies instead of dependencies
     """
     if not os.path.exists(package_json_path):
-        print(f"Error: {package_json_path} not found. Please run 'python-npm init' to create a package.json file.")
+        print(f"Error: {package_json_path} not found. Please run 'npm init' to create a package.json file.")
         return
 
     package_name, specified_version = parse_package_name(package_string)
 
     try:
-        latest_satisfying_version = get_latest_satisfying_version(package_name, specified_version)
-    except ValueError as e:
-        print(f"Error: {str(e)}")
+        if specified_version:
+            version = specified_version
+        else:
+            version = get_latest_satisfying_version(package_name, 'latest')
+    except Exception as e:
+        print(f"Error fetching package info: {e}")
         return
 
-    # Update package.json
     package_json = read_package_json(package_json_path)
+
     dep_type = 'devDependencies' if dev else 'dependencies'
     if dep_type not in package_json:
         package_json[dep_type] = {}
 
-    package_json[dep_type][package_name] = latest_satisfying_version
+    package_json[dep_type][package_name] = version
+
     write_package_json(package_json_path, package_json)
 
-    print(f"Added {package_name}@{latest_satisfying_version} to {dep_type} in package.json")
+    print(f"Added {package_name}@{version} to {dep_type} in package.json")
 
 
 def add_command(args):
